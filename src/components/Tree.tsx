@@ -1,7 +1,25 @@
 import React from 'react';
 import Tree from 'react-d3-tree';
+import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
+import styled from 'styled-components';
 
 import { employeeCardFn } from './EmployeeCard';
+
+interface NodeAttrs extends Record<string, string | number | boolean> {
+    name: string;
+    avatar: string;
+    position: string;
+    alias: string;
+    tasksDescription: string;
+    taskDeadline: string;
+    completed: boolean;
+}
+
+interface TreeData extends RawNodeDatum {
+    name: string;
+    attributes: NodeAttrs;
+    children?: this[];
+}
 
 const dataTree = {
     name: 'CEO',
@@ -39,14 +57,14 @@ const dataTree = {
     ],
 };
 
-const treeContainerStyles = {
-    height: '100vh',
-    width: '100vw',
-};
+const TreeContainerStyle = styled.div`
+    height: 100vh;
+    width: 100vw;
+`;
 
 export const MainTree: React.FC = () => {
     return (
-        <div style={treeContainerStyles}>
+        <TreeContainerStyle>
             <Tree
                 data={dataTree} // TODO: API GET
                 initialDepth={3} // How many layers of tree to show initially
@@ -58,6 +76,6 @@ export const MainTree: React.FC = () => {
                 pathFunc="diagonal"
                 translate={{ x: 500, y: 500 }}
             />
-        </div>
+        </TreeContainerStyle>
     );
 };
