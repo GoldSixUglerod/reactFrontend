@@ -2,47 +2,47 @@ import React from 'react';
 import { TreeNodeDatum } from 'react-d3-tree/lib/types/common';
 
 interface EmployeeCardProps {
-  width: number;
-  height: number;
-  x: number;
-  y: number;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
 }
 
 export const EmployeeCard: React.FC<{
-  nodeData: TreeNodeDatum;
-  triggerNodeToggle: () => void;
-  foreignObjectProps: EmployeeCardProps;
+    nodeData: TreeNodeDatum;
+    triggerNodeToggle: () => void;
+    foreignObjectProps: EmployeeCardProps;
 }> = ({ nodeData, triggerNodeToggle, foreignObjectProps }) => {
-  return (
-    <>
-      {/*<circle r={20}></circle>*/}
-      <foreignObject {...foreignObjectProps}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            border: '1px solid black',
-            paddingBottom: '1rem',
-            backgroundColor: 'rgb(248, 248, 255)', // ghostwhite
-          }}
-        >
-          <h3>{nodeData.name}</h3>
-          <ul style={{ listStyleType: 'none', padding: 0 }}>
-            {nodeData.attributes !== undefined &&
-              Object.keys(nodeData.attributes).map((labelKey, i) => (
-                <li key={`${labelKey}-${i}`}>
-                  {labelKey}: {nodeData.attributes![labelKey]}
-                </li>
-              ))}
-          </ul>
-          {nodeData.children && (
-            <button style={{ textAlign: 'center' }} onClick={triggerNodeToggle}>
-              {nodeData.__rd3t.collapsed ? '⬅️ ➡️ Expand' : '➡️ ⬅️ Collapse'}
-            </button>
-          )}
-        </div>
-      </foreignObject>
-    </>
-  );
+    return (
+        <>
+            {/* <circle r={20}></circle>*/}
+            <foreignObject {...foreignObjectProps}>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        border: '1px solid black',
+                        paddingBottom: '1rem',
+                        backgroundColor: 'rgb(248, 248, 255)', // ghostwhite
+                    }}
+                >
+                    <h3>{nodeData.name}</h3>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                        {nodeData.attributes !== undefined &&
+                            Object.keys(nodeData.attributes).map((labelKey, i) => (
+                                <li key={`${labelKey}-${i}`}>
+                                    {labelKey}: {nodeData.attributes![labelKey]}
+                                </li>
+                            ))}
+                    </ul>
+                    {nodeData.children && (
+                        <button style={{ textAlign: 'center' }} onClick={triggerNodeToggle}>
+                            {nodeData.__rd3t.collapsed ? '⬅️ ➡️ Expand' : '➡️ ⬅️ Collapse'}
+                        </button>
+                    )}
+                </div>
+            </foreignObject>
+        </>
+    );
 };
