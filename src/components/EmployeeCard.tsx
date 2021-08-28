@@ -30,14 +30,15 @@ export const EmployeeCard: React.FC<{
                     <h3>{nodeData.name}</h3>
                     <ul style={{ listStyleType: 'none', padding: 0 }}>
                         {nodeData.attributes !== undefined &&
-                            Object.keys(nodeData.attributes).map((labelKey, i) => (
-                                <li key={`${labelKey}-${i}`}>
-                                    {labelKey}: {nodeData.attributes![labelKey]}
+                            Object.entries(nodeData.attributes).map(([key, value], i) => (
+                                <li key={`${key}-${i}`}>
+                                    {key}: {value}
                                 </li>
                             ))}
                     </ul>
                     {nodeData.children && (
-                        <button style={{ textAlign: 'center' }} onClick={triggerNodeToggle}>
+                        <button type="button" style={{ textAlign: 'center' }} onClick={triggerNodeToggle}>
+                            {/* eslint-disable-next-line no-underscore-dangle */}
                             {nodeData.__rd3t.collapsed ? '⬅️ ➡️ Expand' : '➡️ ⬅️ Collapse'}
                         </button>
                     )}
@@ -46,3 +47,22 @@ export const EmployeeCard: React.FC<{
         </>
     );
 };
+
+export const employeeCardFn = ({
+    nodeDatum,
+    toggleNode,
+}: {
+    nodeDatum: TreeNodeDatum;
+    toggleNode: () => void;
+}): React.ReactElement => (
+    <EmployeeCard
+        nodeData={nodeDatum}
+        triggerNodeToggle={toggleNode}
+        foreignObjectProps={{
+            width: 200,
+            height: 200,
+            x: -100,
+            y: 0,
+        }}
+    />
+);

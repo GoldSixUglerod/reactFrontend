@@ -1,7 +1,7 @@
 import React from 'react';
 import Tree from 'react-d3-tree';
 
-import { EmployeeCard } from './EmployeeCard';
+import { employeeCardFn } from './EmployeeCard';
 
 const dataTree = {
     name: 'CEO',
@@ -44,7 +44,7 @@ const treeContainerStyles = {
     width: '100vw',
 };
 
-export function MainTree() {
+export const MainTree: React.FC = () => {
     return (
         <div style={treeContainerStyles}>
             <Tree
@@ -54,21 +54,10 @@ export function MainTree() {
                 zoomable
                 depthFactor={200} // Number in px
                 nodeSize={{ x: 200, y: 200 }}
-                renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
-                    <EmployeeCard
-                        nodeData={nodeDatum}
-                        triggerNodeToggle={toggleNode}
-                        foreignObjectProps={{
-                            width: 200,
-                            height: 200,
-                            x: -100,
-                            y: 0,
-                        }}
-                    />
-                )}
+                renderCustomNodeElement={employeeCardFn}
                 pathFunc="diagonal"
                 translate={{ x: 500, y: 500 }}
             />
         </div>
     );
-}
+};
