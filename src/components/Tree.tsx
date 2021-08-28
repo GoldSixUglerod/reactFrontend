@@ -2,55 +2,85 @@ import React from 'react';
 import Tree from 'react-d3-tree';
 import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
 import styled from 'styled-components';
+// import Axios from 'axios';
 
 import { employeeCardFn } from './EmployeeCard';
 
-interface NodeAttrs extends Record<string, string | number | boolean> {
-    name: string;
+export interface NodeAttrs extends Record<string, string | number | boolean> {
     avatar: string;
+    contact: string;
     position: string;
-    alias: string;
+    department: string;
+    score: number;
     tasksDescription: string;
+    taskPriority: 1 | 2 | 3;
     taskDeadline: string;
     completed: boolean;
 }
 
-interface TreeData extends RawNodeDatum {
+export interface TreeData extends RawNodeDatum {
     name: string;
-    attributes: NodeAttrs;
+    attributes?: NodeAttrs;
     children?: this[];
 }
 
-const dataTree = {
+const dataTree: TreeData = {
     name: 'CEO',
+    attributes: {
+        avatar: 'M',
+        contact: '@alias',
+        position: 'WorkerPos',
+        department: 'Dept A',
+        score: 4.9,
+        tasksDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+        taskPriority: 1,
+        taskDeadline: 'Tomorrow',
+        completed: false,
+    },
     children: [
         {
             name: 'Manager',
             attributes: {
-                department: 'Production',
+                avatar: 'M',
+                contact: '@alias',
+                position: 'WorkerPos',
+                department: 'Dept A',
+                score: 4.9,
+                tasksDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+                taskPriority: 1,
+                taskDeadline: 'Tomorrow',
+                completed: true,
             },
             children: [
                 {
                     name: 'Foreman',
                     attributes: {
-                        department: 'Fabrication',
+                        avatar: 'M',
+                        contact: '@alias',
+                        position: 'WorkerPos',
+                        department: 'Dept A',
+                        score: 4.9,
+                        tasksDescription:
+                            'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+                        taskPriority: 1,
+                        taskDeadline: 'Tomorrow',
+                        completed: true,
                     },
-                    children: [
-                        {
-                            name: 'Worker',
-                        },
-                    ],
                 },
                 {
                     name: 'Foreman',
                     attributes: {
-                        department: 'Assembly',
+                        avatar: 'M',
+                        contact: '@alias',
+                        position: 'WorkerPos',
+                        department: 'Dept A',
+                        score: 4.9,
+                        tasksDescription:
+                            'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+                        taskPriority: 1,
+                        taskDeadline: 'Tomorrow',
+                        completed: true,
                     },
-                    children: [
-                        {
-                            name: 'Worker',
-                        },
-                    ],
                 },
             ],
         },
@@ -63,18 +93,24 @@ const TreeContainerStyle = styled.div`
 `;
 
 export const MainTree: React.FC = () => {
+    // TODO: Set API URL
+    // const [dataTree, setDataTree] = React.useState('');
+    // Axios.get('').then((response) => {
+    //         setDataTree(response.data);
+    //     }
+    // )
     return (
         <TreeContainerStyle>
             <Tree
-                data={dataTree} // TODO: API GET
+                data={dataTree}
                 initialDepth={3} // How many layers of tree to show initially
                 orientation="vertical"
                 zoomable
-                depthFactor={200} // Number in px
-                nodeSize={{ x: 200, y: 200 }}
+                depthFactor={300} // Distance btw nodes (number in px)
+                nodeSize={{ x: 375, y: 300 }} // Box sizes of node
                 renderCustomNodeElement={employeeCardFn}
                 pathFunc="diagonal"
-                translate={{ x: 500, y: 500 }}
+                translate={{ x: 500, y: 500 }} // Initial position in container
             />
         </TreeContainerStyle>
     );
