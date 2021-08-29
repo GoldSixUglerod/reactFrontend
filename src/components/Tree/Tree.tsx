@@ -110,7 +110,7 @@ export const MainTree: React.FC = () => {
                 nodeSize={{ x: 375, y: 300 }} // Box sizes of node
                 renderCustomNodeElement={employeeCardFn}
                 pathFunc="diagonal"
-                translate={{ x: 500, y: 500 }} // Initial position in container
+                translate={{ x: 250, y: 250 }} // Initial position in container
             />
         </TreeContainerStyle>
     );

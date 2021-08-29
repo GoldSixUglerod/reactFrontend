@@ -7,17 +7,19 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import { Button, Popover } from '@material-ui/core';
+import { Popover } from '@material-ui/core';
 import styled from 'styled-components';
 import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
 import Chip from '@material-ui/core/Chip';
+
+import { ButtonModal } from '../Material/Modal';
 
 import { NodeAttrs } from './Tree';
 
 const CardBottomActionsStyled = styled(CardActions)`
     display: flex;
     justify-content: center;
-    background-color: #eef0f2;
+    padding: 0;
 `;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -92,9 +94,7 @@ export const EmployeeCard: React.FC<{
         setAnchorEl(null);
     };
     const open = Boolean(anchorEl);
-    const handleMoreClick = () => {
-        // TODO: Handle 'more' click
-    };
+
     return (
         <>
             <foreignObject {...foreignObjectProps}>
@@ -106,7 +106,7 @@ export const EmployeeCard: React.FC<{
                                 {avatar}
                             </Avatar>
                         }
-                        title={nodeData.name}
+                        title={<b>{nodeData.name}</b>}
                         subheader={<u>{contact}</u>}
                         style={{ paddingBottom: 0 }}
                     />
@@ -116,7 +116,7 @@ export const EmployeeCard: React.FC<{
                         <div className={classes.upperChip}>
                             <Chip size="small" label={position} />
                             <Chip size="small" label={department} color="primary" />
-                            <Chip size="small" label={score} color="secondary" />
+                            <Chip size="small" label={<b>{score}</b>} color="secondary" />
                         </div>
                         <Typography
                             variant="body2"
@@ -165,32 +165,18 @@ export const EmployeeCard: React.FC<{
                         </div>
                     </CardContent>
                     <CardBottomActionsStyled>
-                        <Button fullWidth onClick={handleMoreClick}>
-                            Подробнее
-                        </Button>
+                        <ButtonModal
+                            fullWidth
+                            variant="contained"
+                            size="small"
+                            color={completed ? 'primary' : 'default'}
+                            // TODO: Add if no not assigned tasks
+                        >
+                            {/*// TODO: Add if no not assigned tasks*/}
+                            {completed ? 'Назначить задачу' : 'Подробнее'}
+                        </ButtonModal>
                     </CardBottomActionsStyled>
                 </Card>
-                {/* <div*/}
-                {/*    style={{*/}
-                {/*        display: 'flex',*/}
-                {/*        flexDirection: 'column',*/}
-                {/*        alignItems: 'center',*/}
-                {/*        border: '1px solid black',*/}
-                {/*        paddingBottom: '1rem',*/}
-                {/*        backgroundColor: 'rgb(248, 248, 255)', // ghostwhite*/}
-                {/*    }}*/}
-                {/* >*/}
-                {/*    <h3>{nodeData.name}</h3>*/}
-                {/*    <ul style={{ listStyleType: 'none', padding: 0 }}>*/}
-                {/*        {nodeData.attributes !== undefined &&*/}
-                {/*            Object.entries(nodeData.attributes).map(([key, value], i) => (*/}
-                {/*                <li key={`${key}-${i}`}>*/}
-                {/*                    {key}: {value}*/}
-                {/*                </li>*/}
-                {/*            ))}*/}
-                {/*    </ul>*/}
-                {/*    {nodeData.children}*/}
-                {/* </div>*/}
             </foreignObject>
         </>
     );
