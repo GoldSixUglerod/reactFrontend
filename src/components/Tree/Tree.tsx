@@ -2,7 +2,7 @@ import React from 'react';
 import Tree from 'react-d3-tree';
 import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
 import styled from 'styled-components';
-// import Axios from 'axios';
+import Axios from 'axios';
 
 import { employeeCardFn } from './EmployeeCard';
 
@@ -93,14 +93,14 @@ const TreeContainerStyle = styled.div`
 `;
 
 export const MainTree: React.FC = () => {
-    // TODO: Set API URL
-    // const [dataTree, setDataTree] = React.useState('');
-    // Axios.get('').then((response) => {
-    //         setDataTree(response.data);
-    //     }
-    // )
+    const [dataTree1, setDataTree] = React.useState('');
+    Axios.get('http://10.91.54.113:8000/api/employee/1').then((response) => {
+        setDataTree(response.data);
+    });
+    console.log(dataTree1);
     return (
         <TreeContainerStyle>
+            {dataTree1}
             <Tree
                 data={dataTree}
                 initialDepth={3} // How many layers of tree to show initially

@@ -14,7 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Hidden } from '@material-ui/core';
+import { Button, Hidden } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -170,7 +171,7 @@ export const MenuTopBar: React.FC<MenuTopBarProps> = ({ setMobileButton }) => {
     );
 
     return (
-        <div className={classes.grow}>
+        <div>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Hidden smUp implementation="css">

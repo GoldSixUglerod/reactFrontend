@@ -10,26 +10,31 @@ import {
     Toolbar,
     Drawer as MaterialDrawer,
 } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/Inbox';
-import MailIcon from '@material-ui/icons/Mail';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import { Link } from 'react-router-dom';
 
 const DrawerContainer: React.FC = () => (
     <div>
         <div />
         <Divider />
         <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            {['Сотрудники'].map((text, index) => (
+                <ListItem button key={text} component={Link} to="/tree">
+                    <ListItemIcon>
+                        <AccountTreeIcon />
+                    </ListItemIcon>
                     <ListItemText primary={text} />
                 </ListItem>
             ))}
         </List>
         <Divider />
         <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            {['Новые задачи'].map((text, index) => (
+                <ListItem button key={text} component={Link} to="/backlog">
+                    <ListItemIcon>
+                        <FormatListBulletedIcon />
+                    </ListItemIcon>
                     <ListItemText primary={text} />
                 </ListItem>
             ))}
