@@ -170,7 +170,7 @@ export const MenuTopBar: React.FC<MenuTopBarProps> = ({ setMobileButton }) => {
     );
 
     return (
-        <div className={classes.grow}>
+        <div>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Hidden smUp implementation="css">
