@@ -7,10 +7,11 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import { Popover } from '@material-ui/core';
+import { Button, Popover } from '@material-ui/core';
 import styled from 'styled-components';
 import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
 import Chip from '@material-ui/core/Chip';
+import { Link } from 'react-router-dom';
 
 import { ButtonModal } from '../Material/Modal';
 
@@ -65,6 +66,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         popover: {
             pointerEvents: 'none',
+        },
+        label: {
+            textTransform: 'none',
+            borderRadius: '0 0 0 0',
         },
     }),
 );
@@ -190,17 +195,31 @@ export const EmployeeCard: React.FC<{
                         )}
                     </CardContent>
                     <CardBottomActionsStyled>
-                        <ButtonModal
-                            fullWidth
-                            variant="contained"
-                            size="small"
-                            color={completed || taskName === null || taskName === undefined ? 'primary' : 'default'}
-                            modalContent={taskDescription}
-                        >
-                            {completed || taskName === null || taskName === undefined
-                                ? 'Назначить задачу'
-                                : 'Подробнее'}
-                        </ButtonModal>
+                        {completed || taskName === null || taskName === undefined ? (
+                            <Button
+                                component={Link}
+                                to="/backlog/department?user=1"
+                                fullWidth
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                className={classes.label}
+                            >
+                                Назначить задачу
+                            </Button>
+                        ) : (
+                            <ButtonModal
+                                fullWidth
+                                variant="contained"
+                                size="small"
+                                color="default"
+                                modalContent={taskDescription}
+                                // TODO: Add if no not assigned tasks
+                            >
+                                {/*// TODO: Add if no not assigned tasks*/}
+                                Подробнее
+                            </ButtonModal>
+                        )}
                     </CardBottomActionsStyled>
                 </Card>
             </foreignObject>

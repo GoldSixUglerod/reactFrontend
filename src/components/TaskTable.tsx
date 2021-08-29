@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Radio, RadioGroup } from '@material-ui/core';
+import Axios from 'axios';
 
 const useRowStyles = makeStyles({
     root: {
@@ -64,10 +65,7 @@ const TaskRow: React.FC<Task> = (props) => {
     );
 };
 
-const rows: Task[] = [
-    { id: '1', name: 'govno', description: 'jfdbhsvuisibd' },
-    { id: '2', name: 'gdgf', description: 'ggfgd' },
-];
+const initRows: Task[] = [{ id: '1', name: '1', description: '' }];
 
 export interface TaskTableProps {
     value: string;
@@ -75,6 +73,19 @@ export interface TaskTableProps {
 }
 
 export const TaskTable: React.FC<TaskTableProps> = ({ value, setValue }) => {
+    const [rows, setRows] = React.useState<Task[]>(initRows);
+    React.useEffect(() => {
+        Axios.get('http://10.91.54.226:8000/api/task/').then((response) => {
+            setRows(
+                response.data.tasks.map((task: any) => ({
+                    id: `${task.id}`,
+                    name: task.name,
+                    description: task.description,
+                })),
+            );
+        });
+    }, []);
+
     const handleChange = (event: React.ChangeEvent) => {
         setValue((event.target as any).value);
     };
@@ -87,8 +98,8 @@ export const TaskTable: React.FC<TaskTableProps> = ({ value, setValue }) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell />
-                                <TableCell>Name</TableCell>
-                                <TableCell>Select</TableCell>
+                                <TableCell>Ключевые слова</TableCell>
+                                <TableCell>Выбор</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

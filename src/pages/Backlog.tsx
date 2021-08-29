@@ -5,9 +5,14 @@ import { PageWrapper } from '../components/Material/PageWrapper';
 import { TaskTable } from '../components/TaskTable';
 import { UserTable } from '../components/UserTable';
 
-export const Backlog: React.FC = () => {
-    const [selectedTask, setSelectedTask] = React.useState('');
-    const [selectedUser, setSelectedUser] = React.useState('');
+interface BacklogProps {
+    user: string | null;
+    task: string | null;
+}
+
+export const Backlog: React.FC<BacklogProps> = (props) => {
+    const [selectedTask, setSelectedTask] = React.useState(props.task !== null ? props.task : '');
+    const [selectedUser, setSelectedUser] = React.useState(props.user !== null ? props.user : '');
 
     return (
         <PageWrapper>
