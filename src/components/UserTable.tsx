@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { Radio, RadioGroup } from '@material-ui/core';
 
 const useRowStyles = makeStyles({
     root: {
@@ -23,6 +24,7 @@ const useRowStyles = makeStyles({
 });
 
 export interface User {
+    id: string;
     name: string;
     description: string;
 }
@@ -42,6 +44,9 @@ const UserRow: React.FC<User> = (props) => {
                 <TableCell component="th" scope="row">
                     {props.name}
                 </TableCell>
+                <TableCell>
+                    <Radio value={props.id} />
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -59,26 +64,38 @@ const UserRow: React.FC<User> = (props) => {
     );
 };
 
-const rows: User[] = [{ name: 'govno', description: 'jfdbhsvuisibd' }];
+const rows: User[] = [{ id: '1', name: 'govno', description: 'jfdbhsvuisibd' }];
 
-export const UserTable: React.FC = () => {
+export interface UserTableProps {
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const UserTable: React.FC<UserTableProps> = ({ value, setValue }) => {
+    const handleChange = (event: React.ChangeEvent) => {
+        setValue((event.target as any).value);
+    };
+
     return (
-        <div>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Name</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <UserRow key={row.name} {...row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+        <div style={{ width: '100%', marginLeft: '10px' }}>
+            <RadioGroup name="taskselected" value={value} onChange={handleChange}>
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Name</TableCell>
+                                <TableCell>Select</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <UserRow key={row.name} {...row} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </RadioGroup>
         </div>
     );
 };

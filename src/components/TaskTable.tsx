@@ -69,17 +69,18 @@ const rows: Task[] = [
     { id: '2', name: 'gdgf', description: 'ggfgd' },
 ];
 
-export const TaskTable: React.FC = () => {
-    const [value, setValue] = React.useState('1');
+export interface TaskTableProps {
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-    const handleChange = (event: any) => {
-        console.log(event);
-        setValue(event.target.value);
-        console.log(value);
+export const TaskTable: React.FC<TaskTableProps> = ({ value, setValue }) => {
+    const handleChange = (event: React.ChangeEvent) => {
+        setValue((event.target as any).value);
     };
 
     return (
-        <div>
+        <div style={{ width: '100%', marginRight: '10px' }}>
             <RadioGroup name="taskselected" value={value} onChange={handleChange}>
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">
