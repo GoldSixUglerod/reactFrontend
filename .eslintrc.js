@@ -10,10 +10,11 @@ module.exports = {
     plugins: ['react', 'import', 'prettier'],
     rules: {
         '@typescript-eslint/no-empty-function': 'off',
-        'no-restricted-syntax': 'off', // В for...of циклах ничего плохого нет
-        'spaced-comment': 'off', /// разрешаем ts-require directive
+        'no-restricted-syntax': 'off',
+        'spaced-comment': 'off',
         'comma-dangle': ['error', 'always-multiline'],
         'arrow-parens': ['error', 'always'],
+        'linebreak-style': 'off',
 
         indent: 'off',
         'max-len': [

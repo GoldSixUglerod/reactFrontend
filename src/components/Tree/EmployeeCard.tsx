@@ -84,8 +84,20 @@ export const EmployeeCard: React.FC<{
     const classes = useStyles();
 
     const attrs = nodeData.attributes as NodeAttrs;
-    const { avatar, contact, position, department, score, tasksDescription, taskPriority, taskDeadline, completed } =
-        attrs;
+    const {
+        userId,
+        avatar,
+        contact,
+        position,
+        department,
+        score,
+        taskName,
+        taskDescription,
+        taskPriority,
+        taskDeadline,
+        completed,
+    } = attrs;
+    console.log(taskName);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         setAnchorEl(event.currentTarget);
@@ -118,62 +130,76 @@ export const EmployeeCard: React.FC<{
                             <Chip size="small" label={department} color="primary" />
                             <Chip size="small" label={<b>{score}</b>} color="secondary" />
                         </div>
-                        <Typography
-                            variant="body2"
-                            color="textPrimary"
-                            component="p"
-                            style={{ marginBottom: 8, marginTop: 8 }}
-                        >
-                            {tasksDescription}
-                        </Typography>
-                        <div className={classes.bottomChip}>
-                            <Chip variant="outlined" size="small" label={taskPriority} color="secondary" />
-                            <Chip
-                                variant="outlined"
-                                size="small"
-                                label={completed ? 'Свободен' : taskDeadline}
-                                color="primary"
-                            />
-                            <Chip
-                                variant="outlined"
-                                size="small"
-                                label={<b>?</b>}
-                                onMouseEnter={handlePopoverOpen}
-                                onMouseLeave={handlePopoverClose}
-                            />
-                            <Popover
-                                id="mouse-over-popover"
-                                className={classes.popover}
-                                classes={{
-                                    paper: classes.paper,
-                                }}
-                                open={open}
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                onClose={handlePopoverClose}
-                                disableRestoreFocus
+                        {taskName === null || taskName === undefined ? (
+                            <Typography
+                                variant="h6"
+                                color="textPrimary"
+                                component="p"
+                                style={{ marginBottom: 8, marginTop: 8 }}
                             >
-                                <Typography variant="body2">Дополнительная информация</Typography>
-                            </Popover>
-                        </div>
+                                Новый сотрудник
+                            </Typography>
+                        ) : (
+                            <>
+                                <Typography
+                                    variant="body2"
+                                    color="textPrimary"
+                                    component="p"
+                                    style={{ marginBottom: 8, marginTop: 8 }}
+                                >
+                                    {taskName}
+                                </Typography>
+                                <div className={classes.bottomChip}>
+                                    <Chip variant="outlined" size="small" label={taskPriority} color="default" />
+                                    <Chip
+                                        variant="outlined"
+                                        size="small"
+                                        label={completed ? 'Свободен' : taskDeadline}
+                                        color={completed ? 'primary' : 'secondary'}
+                                    />
+                                    <Chip
+                                        variant="outlined"
+                                        size="small"
+                                        label={<b>?</b>}
+                                        onMouseEnter={handlePopoverOpen}
+                                        onMouseLeave={handlePopoverClose}
+                                    />
+                                    <Popover
+                                        id="mouse-over-popover"
+                                        className={classes.popover}
+                                        classes={{
+                                            paper: classes.paper,
+                                        }}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        onClose={handlePopoverClose}
+                                        disableRestoreFocus
+                                    >
+                                        <Typography variant="body2">Дополнительная информация</Typography>
+                                    </Popover>
+                                </div>
+                            </>
+                        )}
                     </CardContent>
                     <CardBottomActionsStyled>
                         <ButtonModal
                             fullWidth
                             variant="contained"
                             size="small"
-                            color={completed ? 'primary' : 'default'}
-                            // TODO: Add if no not assigned tasks
+                            color={completed || taskName === null || taskName === undefined ? 'primary' : 'default'}
+                            modalContent={taskDescription}
                         >
-                            {/*// TODO: Add if no not assigned tasks*/}
-                            {completed ? 'Назначить задачу' : 'Подробнее'}
+                            {completed || taskName === null || taskName === undefined
+                                ? 'Назначить задачу'
+                                : 'Подробнее'}
                         </ButtonModal>
                     </CardBottomActionsStyled>
                 </Card>

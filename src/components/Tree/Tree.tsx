@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Tree from 'react-d3-tree';
 import { RawNodeDatum } from 'react-d3-tree/lib/types/common';
 import styled from 'styled-components';
@@ -7,12 +7,14 @@ import Axios from 'axios';
 import { employeeCardFn } from './EmployeeCard';
 
 export interface NodeAttrs extends Record<string, string | number | boolean> {
+    userId: number;
     avatar: string;
     contact: string;
     position: string;
     department: string;
     score: number;
-    tasksDescription: string;
+    taskName: string;
+    taskDescription: string;
     taskPriority: 1 | 2 | 3;
     taskDeadline: string;
     completed: boolean;
@@ -20,19 +22,21 @@ export interface NodeAttrs extends Record<string, string | number | boolean> {
 
 export interface TreeData extends RawNodeDatum {
     name: string;
-    attributes?: NodeAttrs;
+    attributes?: Record<string, string | number | boolean>;
     children?: this[];
 }
 
-const dataTree: TreeData = {
+const initDataTree: TreeData = {
     name: 'CEO',
     attributes: {
+        userId: 1,
         avatar: 'M',
         contact: '@alias',
         position: 'WorkerPos',
         department: 'Dept A',
         score: 4.9,
-        tasksDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+        taskName: 'двор, подметание, правительство РФ',
+        taskDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
         taskPriority: 1,
         taskDeadline: 'Tomorrow',
         completed: false,
@@ -41,12 +45,14 @@ const dataTree: TreeData = {
         {
             name: 'Manager',
             attributes: {
+                userId: 2,
                 avatar: 'M',
                 contact: '@alias',
                 position: 'WorkerPos',
                 department: 'Dept A',
                 score: 4.9,
-                tasksDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
+                taskName: 'двор, подметание, правительство РФ',
+                taskDescription: 'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
                 taskPriority: 1,
                 taskDeadline: 'Tomorrow',
                 completed: true,
@@ -55,12 +61,14 @@ const dataTree: TreeData = {
                 {
                     name: 'Foreman',
                     attributes: {
+                        userId: 3,
                         avatar: 'M',
                         contact: '@alias',
                         position: 'WorkerPos',
                         department: 'Dept A',
                         score: 4.9,
-                        tasksDescription:
+                        taskName: 'двор, подметание, правительство РФ',
+                        taskDescription:
                             'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
                         taskPriority: 1,
                         taskDeadline: 'Tomorrow',
@@ -70,12 +78,14 @@ const dataTree: TreeData = {
                 {
                     name: 'Foreman',
                     attributes: {
+                        userId: 4,
                         avatar: 'M',
                         contact: '@alias',
                         position: 'WorkerPos',
                         department: 'Dept A',
                         score: 4.9,
-                        tasksDescription:
+                        taskName: 'двор, подметание, правительство РФ',
+                        taskDescription:
                             'Реализовать качественное и быстрое подметание дворовых территорий Правительства РФ',
                         taskPriority: 1,
                         taskDeadline: 'Tomorrow',
@@ -93,14 +103,25 @@ const TreeContainerStyle = styled.div`
 `;
 
 export const MainTree: React.FC = () => {
-    const [dataTree1, setDataTree] = React.useState('');
-    Axios.get('http://10.91.54.113:8000/api/employee/1').then((response) => {
-        setDataTree(response.data);
-    });
-    console.log(dataTree1);
+    const [dataTree, setDataTree] = React.useState<TreeData>(initDataTree);
+    console.log(dataTree);
+    useEffect(() => {
+        const apiUrl = 'http://10.91.54.113:8000/api/employee/1';
+        Axios.get(apiUrl).then((response) => {
+            setDataTree({
+                ...response.data,
+                attributes: {
+                    userId: response.data.attributes.id,
+                    department: `${response.data.attributes.department}`,
+                    contact: response.data.attributes.email,
+                    position: response.data.attributes.status,
+                    score: 5,
+                },
+            });
+        });
+    }, []);
     return (
         <TreeContainerStyle>
-            {dataTree1}
             <Tree
                 data={dataTree}
                 initialDepth={3} // How many layers of tree to show initially

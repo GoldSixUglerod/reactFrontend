@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const ButtonModal: React.FC<ButtonProps> = ({ children, ...props }) => {
+export const ButtonModal: React.FC<ButtonProps & { modalContent: string }> = ({ children, modalContent, ...props }) => {
     // const [notAssignedTasks, setNotAssignedTasks] = React.useState('');
     // Axios.get('').then((response) => {
     //     setNotAssignedTasks(response.data);
@@ -59,8 +59,8 @@ export const ButtonModal: React.FC<ButtonProps> = ({ children, ...props }) => {
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
-            <h2 id="simple-modal-title">Text in a modal</h2>
-            <p id="simple-modal-description">Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+            <h2 id="simple-modal-title">Description</h2>
+            <p id="simple-modal-description">{modalContent}</p>
         </div>
     );
 
